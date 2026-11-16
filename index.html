@@ -7,110 +7,35 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1><span class="logo" aria-hidden="true"></span>Pixelator</h1>
-    <p>Turn any image into pixel art. Runs entirely in your browser, with no AI and no uploads.</p>
-  </header>
+  <h1>Pixelator</h1>
+  <p>Turn any image into pixel art. Everything runs in your browser, with no AI.</p>
 
-  <main>
-    <aside class="controls">
-      <label class="drop" id="drop" tabindex="0">
-        <input type="file" id="file" accept="image/*" hidden>
-        <strong>Drop an image here</strong>
-        <span>or click to browse, or paste with Ctrl+V</span>
-      </label>
-      <button type="button" class="link" id="sample">No image handy? Use a sample</button>
+  <form id="controls">
+    <label>Image <input type="file" id="file" accept="image/*"></label>
+    <button type="button" id="sample">Try a sample</button>
 
-      <fieldset>
-        <legend>Size</legend>
-        <label>Width <output id="widthOut">64 px</output>
-          <input type="range" id="width" min="8" max="256" value="64">
-        </label>
-      </fieldset>
+    <label><span>Width: <output id="widthValue">64</output> px</span>
+      <input type="range" id="width" min="8" max="256" value="64">
+    </label>
 
-      <fieldset>
-        <legend>Colours</legend>
-        <label>Palette
-          <select id="palette">
-            <option value="auto">Auto (picked from image)</option>
-            <option value="1bit">1-bit black &amp; white</option>
-            <option value="gray4">Grayscale (4)</option>
-            <option value="green4">Handheld green (4)</option>
-            <option value="cga">CGA (4)</option>
-            <option value="pico8">PICO-8 (16)</option>
-            <option value="sweetie16">Sweetie (16)</option>
-            <option value="custom">Custom hex list…</option>
-          </select>
-        </label>
-        <label id="colorsRow">Number of colours <output id="colorsOut">16</output>
-          <input type="range" id="colors" min="2" max="64" value="16">
-        </label>
-        <label id="customRow" hidden>Hex colours
-          <textarea id="custom" rows="3" spellcheck="false">#1a1c2c #f4f4f4 #b13e53 #38b764 #3b5dc9 #ffcd75</textarea>
-        </label>
-        <label>Dithering
-          <select id="dither">
-            <option value="none">None</option>
-            <option value="fs">Floyd–Steinberg (smooth)</option>
-            <option value="bayer">Ordered / Bayer (patterned)</option>
-          </select>
-        </label>
-        <label id="strengthRow" hidden>Dither strength <output id="strengthOut">60%</output>
-          <input type="range" id="strength" min="0" max="100" value="60">
-        </label>
-      </fieldset>
+    <label>Palette
+      <select id="palette">
+        <option value="auto">Auto (from image)</option>
+        <option value="blackWhite">Black &amp; white</option>
+        <option value="green">Handheld green</option>
+        <option value="pico8">PICO-8</option>
+      </select>
+    </label>
 
-      <fieldset>
-        <legend>Adjust</legend>
-        <label>Brightness <output id="brightnessOut">0</output>
-          <input type="range" id="brightness" min="-100" max="100" value="0">
-        </label>
-        <label>Contrast <output id="contrastOut">0</output>
-          <input type="range" id="contrast" min="-100" max="100" value="0">
-        </label>
-        <label>Saturation <output id="saturationOut">0</output>
-          <input type="range" id="saturation" min="-100" max="100" value="0">
-        </label>
-        <button type="button" class="link" id="reset">Reset adjustments</button>
-      </fieldset>
+    <label><span>Colours: <output id="colorsValue">16</output></span>
+      <input type="range" id="colors" min="2" max="32" value="16">
+    </label>
 
-      <fieldset>
-        <legend>View</legend>
-        <label class="check"><input type="checkbox" id="grid"> Pixel grid</label>
-        <label class="check"><input type="checkbox" id="compare"> Show original side by side</label>
-      </fieldset>
+    <label class="checkbox"><input type="checkbox" id="dither"> Dithering</label>
+    <button type="button" id="download" disabled>Download PNG</button>
+  </form>
 
-      <fieldset>
-        <legend>Export</legend>
-        <label>Scale
-          <select id="scale">
-            <option value="1">1× (true size)</option>
-            <option value="4">4×</option>
-            <option value="8" selected>8×</option>
-            <option value="16">16×</option>
-          </select>
-        </label>
-        <button type="button" class="primary" id="download" disabled>Download PNG</button>
-      </fieldset>
-    </aside>
-
-    <section class="stage" id="stage">
-      <div class="views">
-        <figure id="originalFig" hidden>
-          <img id="original" alt="Original image">
-          <figcaption>Original</figcaption>
-        </figure>
-        <figure id="outFig" hidden>
-          <canvas id="out"></canvas>
-          <figcaption id="info"></figcaption>
-        </figure>
-      </div>
-      <p class="empty" id="empty">Your pixel art will appear here.</p>
-      <div class="swatches" id="swatches" aria-label="Palette used (click to copy hex)"></div>
-    </section>
-  </main>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <main id="output">Pick an image, or drop one anywhere on the page.</main>
 
   <script src="pixelate.js"></script>
   <script src="app.js"></script>
