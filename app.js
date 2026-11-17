@@ -33,7 +33,7 @@ function load(src) {
   img.src = src;
 }
 
-// Saves the result 8 times bigger, without blurring the pixels.
+// Saves the result 8 times bigger
 function download() {
   const big = document.createElement('canvas');
   big.width = result.width * 8;
@@ -53,7 +53,6 @@ $('file').onchange = event => load(URL.createObjectURL(event.target.files[0]));
 $('sample').onclick = () => load('sample.png');
 $('download').onclick = download;
 
-// Let the user drop an image anywhere on the page.
 document.ondragover = event => event.preventDefault();
 document.ondrop = event => {
   event.preventDefault();

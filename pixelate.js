@@ -23,11 +23,12 @@ function pixelate(image, width, colorCount, palette, dither) {
   return canvas;
 }
 
-// Finds the `count` colours that best represent the image, using k-means:
-// start with colours spread from dark to light, then repeatedly move each
+// Finds the `count` colours that best represent the image using k-means
+// start with colours spread from dark to light then move each
 // colour to the average of the pixels that are closest to it.
+//here count is the nuumber od colors we are setting 
 function findPalette(data, count) {
-  // Looking at about 5000 pixels is plenty, and keeps the sliders fast.
+  // Looking at about 5000 pixels
   const step = 4 * Math.ceil(data.length / 4 / 5000);
   const pixels = [];
   for (let i = 0; i < data.length; i += step) {
@@ -79,7 +80,7 @@ function repaint({ data, width, height }, palette, dither) {
     const i = (y * width + x) * 4;
     for (let c = 0; c < 3; c++) data[i + c] += error[c] * share;
   };
-
+//visits every pixel and replaes it according to the colosets colout 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4;
@@ -91,7 +92,7 @@ function repaint({ data, width, height }, palette, dither) {
       const color = palette[closest(palette, old)];
       data.set([color[0], color[1], color[2], 255], i);
 
-      if (dither) {
+      if (dither) { //calculates the error between the pixel and tbe actual color and spreads it to the neighboring pixels
         const error = old.map((value, c) => value - color[c]);
         spread(x + 1, y, error, 7 / 16);
         spread(x - 1, y + 1, error, 3 / 16);
